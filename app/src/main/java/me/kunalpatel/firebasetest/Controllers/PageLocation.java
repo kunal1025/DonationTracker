@@ -53,7 +53,7 @@ public class PageLocation extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(PageLocation.this, DonationItemDetail.class);
-                intent.putExtra("donation", donationManager.getDonations().get(position));
+                intent.putExtra("donation", donationsAtLocation.get(position));
                 startActivity(intent);
             }
         });

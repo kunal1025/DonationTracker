@@ -58,6 +58,10 @@ public class LocationList extends AppCompatActivity {
                 Intent searchIntent = new Intent(this, SearchActivity.class);
                 startActivity(searchIntent);
                 break;
+            case R.id.map:
+                Intent mapIntent = new Intent(this, MapsActivity.class);
+                startActivity(mapIntent);
+                break;
         }
     }
 
