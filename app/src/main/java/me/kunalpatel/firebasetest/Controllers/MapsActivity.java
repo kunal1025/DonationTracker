@@ -10,11 +10,13 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -62,11 +64,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.moveCamera(CameraUpdateFactory.newLatLng(atl));
 
         List<Location> locations = locationManager.getLocations();
+
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+
         for (Location location : locations) {
             LatLng point = new LatLng(location.getLatitude(), location.getLongitude());
             mMap.addMarker(new MarkerOptions().position(point).title(location.getName())
                     .snippet(location.getType().toString() + "\n" + location.getPhoneNumber() + "\n"));
+            builder.include(point);
         }
+
+        LatLngBounds bounds = builder.build();
+        int padding = 200; // offset from edges of the map in pixels
+        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+        googleMap.animateCamera(cu);
 
         mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
 
